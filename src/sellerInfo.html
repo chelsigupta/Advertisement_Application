@@ -1,0 +1,102 @@
+<html lang="en">
+<head>
+    <title>Available Sellers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="../lib/angular.min.js"></script>
+    <script src="sellerController.js"></script>
+</head>
+
+<body>
+<div class="container-fluid" ng-app="mySellerList" ng-controller="sellerController">
+    <h5>Seller Form</h5>
+    <div class="form-group">
+        <div class="row">
+            <label class="text-right col-3" for="name">Seller Name*</label>
+            <input class="form-control-sm  col-4" type="text" id="name" ng-model="name"><br>
+        </div>
+        <p class="col-3 text-right text-warning small">{{nameError}}</p>
+
+        <div class="row">
+            <label class="text-right col-3" for="currency">Currencies*</label>
+            <select class="form-control-sm  col-4" id="currency" ng-model="newCurr" ng-click="addCurrency()"
+                    ng-options="opt for opt in ['USD','GBR','EUR','INR','JPY','RUB'] | filter:showCurr">
+                <option></option>
+            </select><br>
+            <ul class="list-inline  col-4">
+                <li ng-repeat="curr in currencies" class="list-inline-item">{{curr}}
+                    <i class="far fa-times-circle" ng-click="removeCurr($index)"></i>
+                </li>
+            </ul>
+        </div>
+        <p class="col-3 text-right text-warning small">{{currError}}</p>
+
+        <div class="row">
+            <label class="text-right col-3" for="office">Offices*</label>
+            <select class="form-control-sm  col-4" id="office" ng-model="newOff" ng-click="addOffice()"
+                    ng-options="opt for opt in ['JP','UK','US','FR','AU','IT'] | filter:showOff">
+                <option></option>
+            </select><br>
+            <ul class="list-inline  col-4">
+                <li ng-repeat="off in offices" class="list-inline-item">{{off}}
+                    <i class="far fa-times-circle" ng-click="removeOff($index)"></i>
+                </li>
+            </ul>
+        </div>
+        <p class="col-3 text-right text-warning small">{{offError}}</p>
+
+        <div class="row">
+            <label class="text-right col-3" for="checkboxes">Deal Type*</label>
+            <div id="checkboxes" class=" form-check">
+                <input class="form-check-input" id="bid" type="checkbox" ng-model="bid_deal">
+                <label for="bid">Bidded</label><br>
+                <input class="form-check-input" id="gua" type="checkbox" ng-model="gua_deal">
+                <label for="gua">Guaranteed</label>
+                <p class="text-warning small">{{dealError}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <label class="text-right col-3" for="contact">Contact Name</label>
+            <input class="form-control-sm  col-4" ng-model="contact" type="text" id="contact"><br><br>
+        </div>
+
+        <div class="row">
+            <label class="text-right col-3" for="email">Email</label>
+            <input class="form-control-sm  col-4" ng-model="email" type="text" id="email"><br>
+        </div>
+        <p class="col-3 text-right text-warning small">{{emailError}}</p>
+
+        <div class="row">
+            <div class="ml-1 col-4"></div>
+            <div class="ml-5 col-4">
+                <input type="button" value="Cancel" class="btn btn-light btn-sm" ng-click="emptyForm()">
+                <input type="button" value="Save" class="btn btn-info btn-sm" ng-click="saveSeller()">
+            </div>
+        </div>
+    </div>
+
+    <h5>Seller List</h5>
+    <table class="table" ng-model="table">
+        <tr class="font-weight-light small">
+            <td>Name</td>
+            <td>Currencies</td>
+            <td>Offices</td>
+            <td>Bidded Deals</td>
+            <td>Guaranteed Deals</td>
+        </tr>
+        <tr class="small" ng-repeat="seller in sellerList">
+            <td>{{seller.name}}</td>
+            <td>{{seller.currencies.join(", ")}}</td>
+            <td>{{seller.offices.join(", ")}}</td>
+            <td class="text-center">{{seller.bid}}</td>
+            <td class="text-center">{{seller.gua}}</td>
+            <td><i class="fas fa-trash" ng-click="removeSeller($index)"></i></td>
+            <td><i class="fas fa-edit" ng-click="updateSeller($index)"></i></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
